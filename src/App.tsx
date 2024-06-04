@@ -31,6 +31,7 @@ function App() {
 	const { form } = UseAppForm();
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
+	const [submitted, setSubmitted] = useState<boolean>(false);
 	const [openPicker] = useDrivePicker();
 
 	function handleOpenPicker() {
@@ -43,7 +44,7 @@ function App() {
 			showUploadFolders: true,
 			supportDrives: true,
 			multiselect: false,
-			// customViews: customViewsArray, // custom view
+			setParentFolder: import.meta.env.VITE_GOOGLE_DRIVE_FOLDER,
 			callbackFunction: (data) => {
 				if (data.action === "cancel") {
 					console.log("User clicked cancel/close button");
@@ -93,6 +94,7 @@ function App() {
 					color: theme.black,
 				});
 				console.log(data);
+				form.reset();
 			})
 			.catch((error) => console.log(error.message));
 	}
@@ -401,7 +403,7 @@ function App() {
 								fontSize: 10,
 							},
 						}}
-						{...form.getInputProps("Darimana anda mengetahui KRRMC Bekasi?")}
+						{...form.getInputProps("Darimana anda mengetahui KRRMC Bekasi")}
 					/>
 				</Stack>
 				<Text fz={11} fw={700} px={15}>
