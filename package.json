@@ -19,10 +19,10 @@
     "@mantine/notifications": "^7.10.1",
     "@tabler/icons-react": "^3.5.0",
     "dayjs": "^1.11.11",
-    "googleapis": "^137.1.0",
     "mantine-form-zod-resolver": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-drive-picker": "^1.2.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

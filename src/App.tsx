@@ -4,7 +4,6 @@ import {
 	Checkbox,
 	Divider,
 	Group,
-	Highlight,
 	Image,
 	List,
 	NumberInput,
@@ -14,24 +13,46 @@ import {
 	Text,
 	TextInput,
 	Textarea,
-	rem,
 	useMantineTheme,
 } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
-import { Dropzone, FileWithPath } from "@mantine/dropzone";
+// import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { UseAppForm } from "./local.state";
 import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { showNotification } from "@mantine/notifications";
+import useDrivePicker from "react-google-drive-picker";
 
 function App() {
 	const theme = useMantineTheme();
 	const { form } = UseAppForm();
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
+	const [openPicker] = useDrivePicker();
+
+	function handleOpenPicker() {
+		openPicker({
+			clientId: import.meta.env.VITE_GOOGLE_APPLICATION_CLIENT_ID,
+			developerKey: import.meta.env.VITE_GOOGLE_APPLICATION_API_KEY,
+			viewId: "DOCS_IMAGES",
+			token: import.meta.env.VITE_GOOGLE_APPLICATION_ACCESSTOKEN, // pass oauth token in case you already have one
+			showUploadView: true,
+			showUploadFolders: true,
+			supportDrives: true,
+			multiselect: false,
+			// customViews: customViewsArray, // custom view
+			callbackFunction: (data) => {
+				if (data.action === "cancel") {
+					console.log("User clicked cancel/close button");
+				} else if (data.action === "picked") {
+					form.setFieldValue("Foto", data.docs[0].url);
+				}
+			},
+		});
+	}
 
 	function onSubmit() {
 		const formData = new FormData();
@@ -47,14 +68,14 @@ function App() {
 				if (key === "Tanggal Lahir") {
 					formData.append(
 						`data[${key}]`,
-						dayjs(form.values[key as keyof typeof form.values]).format(
+						dayjs(form.values[key as keyof typeof form.values] as Date).format(
 							"DD-MM-YYYY"
 						)
 					);
 				} else {
 					formData.append(
 						`data[${key}]`,
-						form.values[key as keyof typeof form.values]!
+						form.values[key as keyof typeof form.values] as any
 					);
 				}
 			}
@@ -386,11 +407,25 @@ function App() {
 				<Text fz={11} fw={700} px={15}>
 					LAMPIRAN
 				</Text>
-				<Group px={15} gap={15}>
+				<Stack align="center" justify="center" px={15} pt={10}>
+					<Button
+						variant="gradient"
+						gradient={{ from: "#000000", to: "red", deg: 90 }}
+						leftSection={<IconPhoto size={12} stroke={5} />}
+						c={theme.white}
+						onClick={() => handleOpenPicker()}
+					>
+						<Text fz={11} fw={700}>
+							UPLOAD FOTO
+						</Text>
+					</Button>
+				</Stack>
+				{/* <Group px={15} gap={15}>
 					<Dropzone
 						w="100%"
 						h={130}
 						accept={["image/jpg", "image/png"]}
+						multiple={false}
 						onDrop={(files: FileWithPath[]) => console.log(files)}
 					>
 						<Group gap={15} justify="center">
@@ -410,7 +445,7 @@ function App() {
 							</Text>
 						</Group>
 					</Dropzone>
-				</Group>
+				</Group> */}
 				<Text fz={10} px={15} pt={15} ta="justify">
 					Formulir ini saya ajukan untuk bergabung dengan Kawasaki Retro Riders
 					W175 Motorcycle Club (KRRMC) Bekasi, serta tidak ada paksaan dari
@@ -421,42 +456,47 @@ function App() {
 				<List withPadding={false} px={30} w="95%" size="xs">
 					<List.Item>
 						<Text fz={10} ta="justify">
-							Memiliki unit sepeda motor Kawasaki W175 berjenis apapun,
+							Memiliki unit sepeda motor <strong>Kawasaki W175</strong> berjenis
+							apapun,
 						</Text>
 					</List.Item>
 					<List.Item>
-						<Highlight highlight="sukarelawan" fz={10} ta="justify">
-							Bersedia mengikuti iuran secara sukarelawan setiap bulannya dan
-							mematuhi semua peraturan yang sudah dibuat oleh KRRMC Bekasi,
-						</Highlight>
+						<Text fz={10} ta="justify">
+							Bersedia mengikuti iuran secara <strong>sukarelawan</strong>
+							setiap bulannya dan mematuhi semua peraturan yang sudah dibuat
+							oleh KRRMC Bekasi,
+						</Text>
 					</List.Item>
 					<List.Item>
-						<Highlight highlight="Tidak tergabung" fz={10} ta="justify">
-							Tidak tergabung dengan club / komunitas motor Kawasaki W175
-							lainnya,
-						</Highlight>
+						<Text fz={10} ta="justify">
+							<strong>Tidak tergabung</strong> dengan club / komunitas motor
+							Kawasaki W175 lainnya,
+						</Text>
 					</List.Item>
 					<List.Item>
-						<Highlight
-							highlight="Wajib mengikuti program orientasi"
-							fz={10}
-							ta="justify"
-						>
-							Wajib mengikuti program orientasi keanggotaan sampai layak diakui
-							menjadi anggota KRR W175 MC Bekasi,
-						</Highlight>
+						<Text fz={10} ta="justify">
+							<strong>Wajib mengikuti program orientasi keanggotaan</strong>{" "}
+							sampai layak diakui menjadi anggota KRR W175 MC Bekasi,
+						</Text>
 					</List.Item>
 					<List.Item>
-						<Highlight
-							highlight={["sudah layak", "mengikuti pembayaran rompi"]}
-							fz={10}
-							ta="justify"
-						>
-							Jika sudah layak diakui menjadi anggota, saya bersedia mengikuti
-							pembayaran rompi dengan biaya yang telah ditentukan dan sanksi
-							yang telah ditetapkan oleh kepengurusan KRRMC Bekasi jika saya
-							keluar dari club.
-						</Highlight>
+						<Text fz={10} ta="justify">
+							<strong>Biaya registrasi</strong> akan dikenakan sebesar{" "}
+							<strong>Rp. 300,000</strong>, yang dimana biaya tersebut akan
+							digunakan{" "}
+							<strong>untuk pemesanan rompi KRR W175 MC Bekasi</strong>
+						</Text>
+					</List.Item>
+					<List.Item>
+						<Text fz={10} ta="justify">
+							<strong>Dilarang keras membuat rompi sendiri</strong>, Jika
+							membuat sendiri akan{" "}
+							<strong>dikenakan Charge sebesar Rp. 3,000,000</strong> kepada
+							bendahara dan{" "}
+							<strong>
+								sanksi akan dikeluarkan kembali dari KRR W175 MC Bekasi
+							</strong>
+						</Text>
 					</List.Item>
 				</List>
 
@@ -534,7 +574,7 @@ function App() {
 						gradient={{ from: "#000000", to: "red", deg: 90 }}
 						c={theme.white}
 						onClick={() => onSubmit()}
-						disabled={!checkedAturan && !checkedKesanggupan}
+						disabled={checkedAturan && checkedKesanggupan ? false : true}
 					>
 						DAFTAR
 					</Button>

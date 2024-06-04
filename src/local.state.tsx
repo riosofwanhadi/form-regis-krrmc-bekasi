@@ -1,29 +1,31 @@
 import { useForm } from "@mantine/form";
+import { IFormRequest } from "./type";
 
 function UseAppForm() {
-	const form = useForm({
+	const form = useForm<IFormRequest>({
 		initialValues: {
-			"Nama Lengkap": "",
-			"Tempat Lahir": "",
+			"Nama Lengkap": null,
+			"Tempat Lahir": null,
 			"Tanggal Lahir": null,
-			"Alamat Lengkap": "",
-			"No WhatsApp": "",
-			"No KTP": "",
-			"No SIM": "",
-			Agama: "",
-			"Jenis Kelamin": "",
-			Status: "",
-			"Golongan Darah": "",
-			Pekerjaan: "",
-			"Jenis Tipe Motor Kawasaki W175": "",
-			"No Plat": "",
-			"Warna Motor": "",
-			"Tahun Pembuatan": "",
-			"No STNK": "",
-			"Apakah sudah pernah menjadi Anggota Club Sebelumnya": "",
-			"Jika iya, apa nama Club Motor sebelum nya": "",
-			"Alasan Join": "",
-			"Darimana anda mengetahui KRRMC Bekasi": "",
+			"Alamat Lengkap": null,
+			"No WhatsApp": null,
+			"No KTP": null,
+			"No SIM": null,
+			Agama: null,
+			"Jenis Kelamin": null,
+			Status: null,
+			"Golongan Darah": null,
+			Pekerjaan: null,
+			"Jenis Tipe Motor Kawasaki W175": null,
+			"No Plat": null,
+			"Warna Motor": null,
+			"Tahun Pembuatan": null,
+			"No STNK": null,
+			"Apakah sudah pernah menjadi Anggota Club Sebelumnya": null,
+			"Jika iya, apa nama Club Motor sebelum nya": null,
+			"Alasan Join": null,
+			"Darimana anda mengetahui KRRMC Bekasi": null,
+			Foto: null,
 		},
 	});
 
