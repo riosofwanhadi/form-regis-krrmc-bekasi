@@ -25,6 +25,7 @@ import { UseAppForm } from "./local.state";
 import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { showNotification } from "@mantine/notifications";
 
 function App() {
 	const theme = useMantineTheme();
@@ -63,7 +64,15 @@ function App() {
 			body: formData,
 		})
 			.then((res) => res.json())
-			.then((data) => console.log(data))
+			.then((data) => {
+				showNotification({
+					message:
+						"Selamat, Proses Registrasi Anda Sudah Selesai. Mohon Menunggu Konfirmasi Pengurus KRR W175 MC",
+					autoClose: 5000,
+					color: theme.black,
+				});
+				console.log(data);
+			})
 			.catch((error) => console.log(error.message));
 	}
 
@@ -382,7 +391,7 @@ function App() {
 						w="100%"
 						h={130}
 						accept={["image/jpg", "image/png"]}
-						onDrop={(files) => console.log(files)}
+						onDrop={(files: FileWithPath[]) => console.log(files)}
 					>
 						<Group gap={15} justify="center">
 							<Dropzone.Idle>

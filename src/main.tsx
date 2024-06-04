@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 				fontFamily: "Montserrat",
 			}}
 		>
-			<Notifications />
+			<Notifications position="top-center" />
 			<App />
 		</MantineProvider>
 	</React.StrictMode>
