@@ -407,7 +407,7 @@ function App() {
 				<Text fz={11} fw={700} px={15}>
 					LAMPIRAN
 				</Text>
-				<Stack align="center" justify="center" px={15} pt={10}>
+				<Stack align="center" justify="center" px={15} pt={10} gap={0}>
 					<Button
 						variant="gradient"
 						gradient={{ from: "#000000", to: "red", deg: 90 }}
@@ -419,6 +419,10 @@ function App() {
 							UPLOAD FOTO
 						</Text>
 					</Button>
+					<Text fz={10} fw={700} w={300} ta="center">
+						Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm, Masker/Buff
+						dan Utamakan Siang Hari)
+					</Text>
 				</Stack>
 				{/* <Group px={15} gap={15}>
 					<Dropzone
