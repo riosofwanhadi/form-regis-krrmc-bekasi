@@ -22,7 +22,6 @@ import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { UseAppForm } from "./local.state";
-import { google } from "googleapis";
 import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -33,7 +32,6 @@ function App() {
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
 
-	console.log(form.values);
 	function onSubmit() {
 		const formData = new FormData();
 		for (const key in form.values) {
@@ -384,9 +382,7 @@ function App() {
 						w="100%"
 						h={130}
 						accept={["image/jpg", "image/png"]}
-						onDrop={function (files: FileWithPath[]): void {
-							throw new Error("Function not implemented.");
-						}}
+						onDrop={(files) => console.log(files)}
 					>
 						<Group gap={15} justify="center">
 							<Dropzone.Idle>

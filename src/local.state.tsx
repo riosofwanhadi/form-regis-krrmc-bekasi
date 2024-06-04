@@ -1,13 +1,6 @@
 import { useForm } from "@mantine/form";
-import { zodResolver } from "@mantine/form";
-import { z } from "zod";
 
 function UseAppForm() {
-	const schema = z.object({
-		"Nama Lengkap": z
-			.string()
-			.min(1, { message: "Mohon Isi Nama Lengkap Dengan Benar !" }),
-	});
 	const form = useForm({
 		initialValues: {
 			"Nama Lengkap": "",
