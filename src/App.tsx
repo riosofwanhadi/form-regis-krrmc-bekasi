@@ -111,10 +111,10 @@ function App() {
 				<Group gap={15} align="center" justify="center" p={15}>
 					<Image src={logo} w={80} radius="100%" />
 					<Stack gap={0} align="center" justify="center" w={250}>
-						<Text fz={14} fw={700}>
+						<Text fz={14} fw={700} style={{ fontFamily: "RyeRegular" }}>
 							KAWASAKI RETRO RIDERS W175
 						</Text>
-						<Text fz={14} fw={700} mt={-5}>
+						<Text fz={14} fw={700} mt={-5} style={{ fontFamily: "RyeRegular" }}>
 							MOTORCYCLE CLUB BEKASI
 						</Text>
 						<Text fz={9} ta="center">
@@ -126,7 +126,7 @@ function App() {
 				</Group>
 				<Divider size="sm" color={theme.black} />
 				<Center pt={15}>
-					<Text fz={12} fw={700}>
+					<Text fz={12} fw={700} style={{ fontFamily: "RyeRegular" }}>
 						FORMULIR PENDAFTARAN ANGGOTA
 					</Text>
 				</Center>
@@ -512,11 +512,29 @@ function App() {
 				/>
 				<Image src={banner} w="100%" py={10} />
 				<Stack px={15} gap={0}>
-					<Text fz={12} ta="center" fw={700}>
+					<Text
+						fz={12}
+						ta="center"
+						fw={700}
+						style={{ fontFamily: "RyeRegular" }}
+					>
 						SURAT KESANGGUPAN ANGGOTA
 					</Text>
-					<Text fz={12} ta="center" fw={700}>
-						KAWASAKI RETRO RIDERS W175 MOTORCYCLE CLUB BEKASI
+					<Text
+						fz={12}
+						ta="center"
+						fw={700}
+						style={{ fontFamily: "RyeRegular" }}
+					>
+						KAWASAKI RETRO RIDERS W175
+					</Text>
+					<Text
+						fz={12}
+						ta="center"
+						fw={700}
+						style={{ fontFamily: "RyeRegular" }}
+					>
+						MOTORCYCLE CLUB BEKASI
 					</Text>
 				</Stack>
 				<Text fz={11} fw={700} px={15} py={10}>
@@ -576,6 +594,7 @@ function App() {
 						c={theme.white}
 						onClick={() => onSubmit()}
 						disabled={checkedAturan && checkedKesanggupan ? false : true}
+						style={{ fontFamily: "RyeRegular" }}
 					>
 						DAFTAR
 					</Button>
