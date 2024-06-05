@@ -13,18 +13,17 @@ import {
 	Text,
 	TextInput,
 	Textarea,
+	UnstyledButton,
 	rem,
 	useMantineTheme,
 } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
-// import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { UseAppForm } from "./local.state";
 import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { showNotification } from "@mantine/notifications";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { app } from "./config/firebase";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -35,6 +34,8 @@ function App() {
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [isUploaded, setIsUploaded] = useState<boolean>(false);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
 	async function onUpload(files: FileWithPath[]) {
 		const storage = getStorage(
@@ -54,6 +55,7 @@ function App() {
 		await uploadBytes(storageRef, blob, metaData);
 		const url = await getDownloadURL(storageRef);
 		form.setFieldValue("Foto", url);
+		setIsUploaded(true);
 	}
 
 	function onSubmit() {
@@ -89,17 +91,12 @@ function App() {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				showNotification({
-					message:
-						"Selamat, Proses Registrasi Anda Sudah Selesai. Mohon Menunggu Konfirmasi Pengurus KRR W175 MC",
-					autoClose: 5000,
-					color: theme.black,
-				});
 				console.log(data);
 				form.reset();
 				setCheckedAturan(false);
 				setCheckedKesanggupan(false);
 				setLoading(false);
+				setIsSuccess(true);
 			})
 			.catch((error) => {
 				console.log(error.message);
@@ -107,7 +104,58 @@ function App() {
 			});
 	}
 
-	return (
+	return isSuccess ? (
+		<div
+			style={{ width: "100vw", height: "100vh", backgroundColor: theme.black }}
+		>
+			<Stack
+				gap={0}
+				align="center"
+				justify="space-between"
+				w="100%"
+				h="100%"
+				py="xl"
+			>
+				<Text
+					c="white"
+					p={5}
+					w="90%"
+					fz={50}
+					ta="center"
+					style={{
+						fontFamily: "RyeRegular",
+						backgroundColor: "#d2212b",
+						WebkitTextStrokeColor: "#000000",
+						WebkitTextStrokeWidth: "1px",
+						border: "solid",
+						borderColor: theme.white,
+						borderWidth: "3px",
+					}}
+				>
+					R E S P E C T
+				</Text>
+				<Image src={logo} />
+				<Text
+					style={{
+						fontFamily: "RyeRegular",
+						backgroundColor: "#d2212b",
+						WebkitTextStrokeColor: "#000000",
+						WebkitTextStrokeWidth: "1px",
+						border: "solid",
+						borderColor: theme.white,
+						borderWidth: "3px",
+					}}
+					c="white"
+					w="90%"
+					fz={40}
+					p={15}
+					ta="center"
+				>
+					W E L C O M E
+				</Text>
+			</Stack>
+		</div>
+	) : (
 		<ScrollArea h="100%">
 			<Stack gap={0}>
 				<Group gap={15} align="center" justify="center" p={15}>
@@ -429,35 +477,65 @@ function App() {
 					LAMPIRAN
 				</Text>
 				<Group px={15} gap={15}>
-					<Dropzone
-						w="100%"
-						h={130}
-						accept={["image/jpeg"]}
-						multiple={false}
-						onDrop={(files: FileWithPath[]) => onUpload(files)}
-					>
-						<Group gap={15} justify="center">
-							<Dropzone.Idle>
-								<IconPhoto
-									style={{
-										width: rem(52),
-										height: rem(52),
-										color: "var(--mantine-color-dimmed)",
-									}}
-									stroke={1.5}
-								/>
-							</Dropzone.Idle>
-							<Stack gap={0}>
-								<Text fz={10} fw={700} w={300} ta="center">
-									Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm,
-									Masker/Buff dan Utamakan Siang Hari)
+					{isUploaded ? (
+						<Stack justify="center" align="center" w="100%" gap={10}>
+							<Group
+								w="100%"
+								align="center"
+								justify="center"
+								style={{
+									border: "solid",
+									borderWidth: "1px",
+									borderStyle: "dotted",
+									borderRadius: theme.radius.md,
+									borderColor: theme.colors.gray[6],
+								}}
+							>
+								<Image src={form.values.Foto} h={140} />
+							</Group>
+							<UnstyledButton
+								onClick={() => {
+									setIsUploaded(false);
+									form.setFieldValue("Foto", "");
+								}}
+							>
+								<Text fz={10} ta="center" td="underline" c="blue">
+									Upload Ulang
 								</Text>
-								<Text fz={10} w={300} ta="center" c="dimmed">
-									Format Yang Diterima Hanya .jpg
-								</Text>
-							</Stack>
-						</Group>
-					</Dropzone>
+							</UnstyledButton>
+						</Stack>
+					) : (
+						<Dropzone
+							w="100%"
+							h={150}
+							accept={["image/jpeg"]}
+							multiple={false}
+							px={15}
+							onDrop={(files: FileWithPath[]) => onUpload(files)}
+						>
+							<Group gap={15} justify="center">
+								<Dropzone.Idle>
+									<IconPhoto
+										style={{
+											width: rem(52),
+											height: rem(52),
+											color: "var(--mantine-color-dimmed)",
+										}}
+										stroke={1.5}
+									/>
+								</Dropzone.Idle>
+								<Stack gap={0}>
+									<Text fz={10} fw={700} w={300} ta="center">
+										Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm,
+										Masker/Buff dan Utamakan Siang Hari)
+									</Text>
+									<Text fz={10} w={300} ta="center" c="dimmed">
+										Format Yang Diterima Hanya .jpg
+									</Text>
+								</Stack>
+							</Group>
+						</Dropzone>
+					)}
 				</Group>
 				<Text fz={10} px={15} pt={15} ta="justify">
 					Formulir ini saya ajukan untuk bergabung dengan Kawasaki Retro Riders
