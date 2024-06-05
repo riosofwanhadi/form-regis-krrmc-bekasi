@@ -15,7 +15,7 @@ import {
 	Textarea,
 	useMantineTheme,
 } from "@mantine/core";
-import { IconPhoto } from "@tabler/icons-react";
+// import { IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
 // import { Dropzone, FileWithPath } from "@mantine/dropzone";
@@ -24,36 +24,36 @@ import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { showNotification } from "@mantine/notifications";
-import useDrivePicker from "react-google-drive-picker";
+// import useDrivePicker from "react-google-drive-picker";
 
 function App() {
 	const theme = useMantineTheme();
 	const { form } = UseAppForm();
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
-	const [submitted, setSubmitted] = useState<boolean>(false);
-	const [openPicker] = useDrivePicker();
+	// const [submitted, setSubmitted] = useState<boolean>(false);
+	// const [openPicker] = useDrivePicker();
 
-	function handleOpenPicker() {
-		openPicker({
-			clientId: import.meta.env.VITE_GOOGLE_APPLICATION_CLIENT_ID,
-			developerKey: import.meta.env.VITE_GOOGLE_APPLICATION_API_KEY,
-			viewId: "DOCS_IMAGES",
-			token: import.meta.env.VITE_GOOGLE_APPLICATION_ACCESSTOKEN, // pass oauth token in case you already have one
-			showUploadView: true,
-			showUploadFolders: true,
-			supportDrives: true,
-			multiselect: false,
-			setParentFolder: import.meta.env.VITE_GOOGLE_DRIVE_FOLDER,
-			callbackFunction: (data) => {
-				if (data.action === "cancel") {
-					console.log("User clicked cancel/close button");
-				} else if (data.action === "picked") {
-					form.setFieldValue("Foto", data.docs[0].url);
-				}
-			},
-		});
-	}
+	// function handleOpenPicker() {
+	// 	openPicker({
+	// 		clientId: import.meta.env.VITE_GOOGLE_APPLICATION_CLIENT_ID,
+	// 		developerKey: import.meta.env.VITE_GOOGLE_APPLICATION_API_KEY,
+	// 		viewId: "DOCS_IMAGES",
+	// 		token: import.meta.env.VITE_GOOGLE_APPLICATION_ACCESSTOKEN, // pass oauth token in case you already have one
+	// 		showUploadView: true,
+	// 		showUploadFolders: true,
+	// 		supportDrives: true,
+	// 		multiselect: false,
+	// 		setParentFolder: import.meta.env.VITE_GOOGLE_DRIVE_FOLDER,
+	// 		callbackFunction: (data) => {
+	// 			if (data.action === "cancel") {
+	// 				console.log("User clicked cancel/close button");
+	// 			} else if (data.action === "picked") {
+	// 				form.setFieldValue("Foto", data.docs[0].url);
+	// 			}
+	// 		},
+	// 	});
+	// }
 
 	function onSubmit() {
 		const formData = new FormData();
@@ -409,7 +409,7 @@ function App() {
 				<Text fz={11} fw={700} px={15}>
 					LAMPIRAN
 				</Text>
-				<Stack align="center" justify="center" px={15} pt={10} gap={0}>
+				{/* <Stack align="center" justify="center" px={15} pt={10} gap={0}>
 					<Button
 						variant="gradient"
 						gradient={{ from: "#000000", to: "red", deg: 90 }}
@@ -425,7 +425,7 @@ function App() {
 						Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm, Masker/Buff
 						dan Utamakan Siang Hari)
 					</Text>
-				</Stack>
+				</Stack> */}
 				{/* <Group px={15} gap={15}>
 					<Dropzone
 						w="100%"
