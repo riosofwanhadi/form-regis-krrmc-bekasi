@@ -114,7 +114,7 @@ function App() {
 					<Image src={logo} w={80} radius="100%" />
 					<Stack gap={0} align="center" justify="center" w={250}>
 						<Text
-							fz={14}
+							fz={13}
 							fw={700}
 							ta="center"
 							style={{ fontFamily: "RyeRegular" }}
@@ -122,7 +122,7 @@ function App() {
 							KAWASAKI RETRO RIDERS W175
 						</Text>
 						<Text
-							fz={14}
+							fz={13}
 							fw={700}
 							mt={-5}
 							ta="center"
