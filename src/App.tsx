@@ -13,9 +13,10 @@ import {
 	Text,
 	TextInput,
 	Textarea,
+	rem,
 	useMantineTheme,
 } from "@mantine/core";
-// import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
 // import { Dropzone, FileWithPath } from "@mantine/dropzone";
@@ -24,36 +25,36 @@ import { hakAnggota, kewajibanAnggota, nilaiDeklarasi } from "./arrays";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { showNotification } from "@mantine/notifications";
-// import useDrivePicker from "react-google-drive-picker";
+import { Dropzone, FileWithPath } from "@mantine/dropzone";
+import { app } from "./config/firebase";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 function App() {
 	const theme = useMantineTheme();
 	const { form } = UseAppForm();
 	const [checkedAturan, setCheckedAturan] = useState<boolean>(false);
 	const [checkedKesanggupan, setCheckedKesanggupan] = useState<boolean>(false);
-	// const [submitted, setSubmitted] = useState<boolean>(false);
-	// const [openPicker] = useDrivePicker();
+	const [loading, setLoading] = useState<boolean>(false);
 
-	// function handleOpenPicker() {
-	// 	openPicker({
-	// 		clientId: import.meta.env.VITE_GOOGLE_APPLICATION_CLIENT_ID,
-	// 		developerKey: import.meta.env.VITE_GOOGLE_APPLICATION_API_KEY,
-	// 		viewId: "DOCS_IMAGES",
-	// 		token: import.meta.env.VITE_GOOGLE_APPLICATION_ACCESSTOKEN, // pass oauth token in case you already have one
-	// 		showUploadView: true,
-	// 		showUploadFolders: true,
-	// 		supportDrives: true,
-	// 		multiselect: false,
-	// 		setParentFolder: import.meta.env.VITE_GOOGLE_DRIVE_FOLDER,
-	// 		callbackFunction: (data) => {
-	// 			if (data.action === "cancel") {
-	// 				console.log("User clicked cancel/close button");
-	// 			} else if (data.action === "picked") {
-	// 				form.setFieldValue("Foto", data.docs[0].url);
-	// 			}
-	// 		},
-	// 	});
-	// }
+	async function onUpload(files: FileWithPath[]) {
+		const storage = getStorage(
+			app,
+			"gs://formregistrationkrrmcbekasi.appspot.com"
+		);
+		const storageRef = ref(
+			storage,
+			`FotoAnggota/${form.values["Nama Lengkap"]}.${files[0].name.substring(
+				files[0].name.length - 3
+			)}`
+		);
+		const metaData = {
+			contentType: "image/jpeg",
+		};
+		const blob = new Blob(files);
+		await uploadBytes(storageRef, blob, metaData);
+		const url = await getDownloadURL(storageRef);
+		form.setFieldValue("Foto", url);
+	}
 
 	function onSubmit() {
 		const formData = new FormData();
@@ -81,6 +82,7 @@ function App() {
 				}
 			}
 		}
+		setLoading(true);
 		fetch("https://sheetdb.io/api/v1/w6i20d1seu2ba", {
 			method: "POST",
 			body: formData,
@@ -95,8 +97,12 @@ function App() {
 				});
 				console.log(data);
 				form.reset();
+				setLoading(false);
 			})
-			.catch((error) => console.log(error.message));
+			.catch((error) => {
+				console.log(error.message);
+				setLoading(false);
+			});
 	}
 
 	return (
@@ -406,33 +412,16 @@ function App() {
 						{...form.getInputProps("Darimana anda mengetahui KRRMC Bekasi")}
 					/>
 				</Stack>
-				{/* <Text fz={11} fw={700} px={15}>
+				<Text fz={11} fw={700} px={15}>
 					LAMPIRAN
-				</Text> */}
-				{/* <Stack align="center" justify="center" px={15} pt={10} gap={0}>
-					<Button
-						variant="gradient"
-						gradient={{ from: "#000000", to: "red", deg: 90 }}
-						leftSection={<IconPhoto size={12} stroke={5} />}
-						c={theme.white}
-						onClick={() => handleOpenPicker()}
-					>
-						<Text fz={11} fw={700}>
-							UPLOAD FOTO
-						</Text>
-					</Button>
-					<Text fz={10} fw={700} w={300} ta="center">
-						Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm, Masker/Buff
-						dan Utamakan Siang Hari)
-					</Text>
-				</Stack> */}
-				{/* <Group px={15} gap={15}>
+				</Text>
+				<Group px={15} gap={15}>
 					<Dropzone
 						w="100%"
 						h={130}
-						accept={["image/jpg", "image/png"]}
+						accept={["image/jpeg"]}
 						multiple={false}
-						onDrop={(files: FileWithPath[]) => console.log(files)}
+						onDrop={(files: FileWithPath[]) => onUpload(files)}
 					>
 						<Group gap={15} justify="center">
 							<Dropzone.Idle>
@@ -445,13 +434,18 @@ function App() {
 									stroke={1.5}
 								/>
 							</Dropzone.Idle>
-							<Text fz={10} fw={700} w={300} ta="center" c="dimmed">
-								Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm,
-								Masker/Buff dan Utamakan Siang Hari)
-							</Text>
+							<Stack gap={0}>
+								<Text fz={10} fw={700} w={300} ta="center">
+									Upload Foto Anda Bersama Motor Anda (Tidak Memakai Helm,
+									Masker/Buff dan Utamakan Siang Hari)
+								</Text>
+								<Text fz={10} w={300} ta="center" c="dimmed">
+									Format Yang Diterima Hanya .jpg
+								</Text>
+							</Stack>
 						</Group>
 					</Dropzone>
-				</Group> */}
+				</Group>
 				<Text fz={10} px={15} pt={15} ta="justify">
 					Formulir ini saya ajukan untuk bergabung dengan Kawasaki Retro Riders
 					W175 Motorcycle Club (KRRMC) Bekasi, serta tidak ada paksaan dari
@@ -576,6 +570,7 @@ function App() {
 				<Group p={15}>
 					<Button
 						fullWidth
+						loading={loading}
 						variant="gradient"
 						gradient={{ from: "#000000", to: "red", deg: 90 }}
 						c={theme.white}
