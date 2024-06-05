@@ -16,7 +16,7 @@ import {
 	rem,
 	useMantineTheme,
 } from "@mantine/core";
-import { IconCheck, IconPhoto } from "@tabler/icons-react";
+import { IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
 // import { Dropzone, FileWithPath } from "@mantine/dropzone";
