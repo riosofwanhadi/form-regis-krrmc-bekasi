@@ -111,7 +111,7 @@ function App() {
 		<ScrollArea h="100%">
 			<Stack gap={0}>
 				<Group gap={15} align="center" justify="center" p={15}>
-					<Image src={logo} w={80} radius="100%" />
+					<Image src={logo} w={80} />
 					<Stack gap={0} align="center" justify="center" w={250}>
 						<Text
 							fz={13}
