@@ -16,7 +16,7 @@ import {
 	rem,
 	useMantineTheme,
 } from "@mantine/core";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconCheck, IconPhoto } from "@tabler/icons-react";
 import { banner, logo } from "./assets";
 import { DatePickerInput } from "@mantine/dates";
 // import { Dropzone, FileWithPath } from "@mantine/dropzone";
@@ -97,6 +97,8 @@ function App() {
 				});
 				console.log(data);
 				form.reset();
+				setCheckedAturan(false);
+				setCheckedKesanggupan(false);
 				setLoading(false);
 			})
 			.catch((error) => {
@@ -111,10 +113,21 @@ function App() {
 				<Group gap={15} align="center" justify="center" p={15}>
 					<Image src={logo} w={80} radius="100%" />
 					<Stack gap={0} align="center" justify="center" w={250}>
-						<Text fz={14} fw={700} style={{ fontFamily: "RyeRegular" }}>
+						<Text
+							fz={14}
+							fw={700}
+							ta="center"
+							style={{ fontFamily: "RyeRegular" }}
+						>
 							KAWASAKI RETRO RIDERS W175
 						</Text>
-						<Text fz={14} fw={700} mt={-5} style={{ fontFamily: "RyeRegular" }}>
+						<Text
+							fz={14}
+							fw={700}
+							mt={-5}
+							ta="center"
+							style={{ fontFamily: "RyeRegular" }}
+						>
 							MOTORCYCLE CLUB BEKASI
 						</Text>
 						<Text fz={9} ta="center">
@@ -596,7 +609,7 @@ function App() {
 						disabled={checkedAturan && checkedKesanggupan ? false : true}
 						style={{ fontFamily: "RyeRegular" }}
 					>
-						DAFTAR
+						D A F T A R
 					</Button>
 				</Group>
 			</Stack>
