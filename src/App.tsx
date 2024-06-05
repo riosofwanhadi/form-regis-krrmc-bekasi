@@ -406,9 +406,9 @@ function App() {
 						{...form.getInputProps("Darimana anda mengetahui KRRMC Bekasi")}
 					/>
 				</Stack>
-				<Text fz={11} fw={700} px={15}>
+				{/* <Text fz={11} fw={700} px={15}>
 					LAMPIRAN
-				</Text>
+				</Text> */}
 				{/* <Stack align="center" justify="center" px={15} pt={10} gap={0}>
 					<Button
 						variant="gradient"
