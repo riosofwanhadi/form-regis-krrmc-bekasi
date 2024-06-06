@@ -82,6 +82,8 @@ function App() {
 						form.values[key as keyof typeof form.values] as any
 					);
 				}
+			} else {
+				formData.append(`data[${key}]`, "-");
 			}
 		}
 		setLoading(true);
@@ -132,7 +134,7 @@ function App() {
 						borderWidth: "3px",
 					}}
 				>
-					R E S P E C T
+					RESPECT
 				</Text>
 				<Image src={logo} />
 				<Text
