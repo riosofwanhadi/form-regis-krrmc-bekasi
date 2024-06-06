@@ -430,7 +430,7 @@ function App() {
 							},
 						}}
 						{...form.getInputProps(
-							"Apakah sudah pernah menjadi Anggota Club Sebelumnya?"
+							"Apakah sudah pernah menjadi Anggota Club Sebelumnya"
 						)}
 					/>
 					{form.values[
