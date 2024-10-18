@@ -572,25 +572,6 @@ function App() {
 							sampai layak diakui menjadi anggota KRR W175 MC Bekasi,
 						</Text>
 					</List.Item>
-					<List.Item>
-						<Text fz={10} ta="justify">
-							<strong>Biaya registrasi</strong> akan dikenakan sebesar{" "}
-							<strong>Rp. 300,000</strong>, yang dimana biaya tersebut akan
-							digunakan{" "}
-							<strong>untuk pemesanan rompi KRR W175 MC Bekasi</strong>
-						</Text>
-					</List.Item>
-					<List.Item>
-						<Text fz={10} ta="justify">
-							<strong>Dilarang keras membuat rompi sendiri</strong>, Jika
-							membuat sendiri akan{" "}
-							<strong>dikenakan Charge sebesar Rp. 3,000,000</strong> kepada
-							bendahara dan{" "}
-							<strong>
-								sanksi akan dikeluarkan kembali dari KRR W175 MC Bekasi
-							</strong>
-						</Text>
-					</List.Item>
 				</List>
 
 				<Checkbox
